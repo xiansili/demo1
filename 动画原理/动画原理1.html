@@ -21,10 +21,12 @@
     var oSquare = document.getElementById('square');
 
     oBtn.onclick = function () {
-        timr = setInterval(function () {
+        timer = setInterval(function () {
             if (oSquare.offsetLeft >= 500) {
                 clearInterval(timer);
+                oSquare.style.left=500 + 'px';
             }
+
             oSquare.style.left=oSquare.offsetLeft + 20 + 'px';
         },50)
 
