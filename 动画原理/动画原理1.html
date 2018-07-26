@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>动画原理1</title>
+    <style>
+
+        #square{
+            width: 150px;
+            height: 150px;
+            background-color: #ccc;
+            position: relative;
+        }
+    </style>
+</head>
+<body>
+<button id="btn">开始</button>
+<div id="square"></div>
+<script>
+    var oBtn = document.getElementById('btn');
+    var oSquare = document.getElementById('square');
+
+    oBtn.onclick = function () {
+        timr = setInterval(function () {
+            if (oSquare.offsetLeft >= 500) {
+                clearInterval(timer);
+            }
+            oSquare.style.left=oSquare.offsetLeft + 20 + 'px';
+        },50)
+
+    }
+
+</script>
+</body>
+</html>
