@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+        }
+        #app{
+            width:500px; 
+            margin: 100px auto;
+        }
+        #app h3{
+            text-align: center; 
+        }
+        #app li{
+            background-color: #cccccc;
+            list-style: none;
+            width:500px;
+            height: 50px;
+            margin-bottom:15px;
+            line-height: 50px;
+            padding-left: 10px;
+            margin-right: 10px;
+            position: relative
+        }
+        #app .right{
+          position:absolute; 
+          right: 15px;
+        }
+        #app .left{
+          margin-right: 20px;
+        }
+        #app .changecolor{
+
+            background-color: #ff0036;
+        }
+
+        
+    </style>
+</head>
+<body>
+    <div id="app">
+        <h3>todolist</h3>
+        <form action="">
+            名称：<input type="text" v-model="addname">
+            价格：<input type="text" v-model="addprice">
+            <input type="button" value="增加" @click="add">
+            <input type="text" v-model="found">
+            <input type="button" value="查询" @click="find">
+        </form>
+        <ul>
+            <li v-for="(item,index) in arr"  @click='change(item,index)' :class="{ changecolor: item.ischange }">
+                    <span class="left"><input type="checkbox" v-model="message" :value="index">
+                    <button @click='del(index)'>[X]</button>
+                    </span>{{item.name}}
+                    <span class="right">${{item.price}}</span>
+            </li>
+        </ul>
+        <input type=button value="删除选中"  @click="delcheckbox">
+        <span>总价:{{totalValue}}</span>
+       
+    </div>
+    <script src="vue.js"></script>
+    <script>
+        let vm = new Vue({
+            el:'#app',
+            data:{
+                arr:[{
+                    name:'衣服',
+                    price:'123',
+                    ischange:false
+                },{
+                    name:'裤子',
+                    price:'564',
+                    ischange:false
+                },{
+                    name:'鞋子',
+                    price:'66',
+                    ischange:false
+                },{
+                    name:'苹果X',
+                    price:'8888',
+                    ischange:false
+                },{
+                    name:'电脑',
+                    price:'986',
+                    ischange:false
+                }],
+                message:[],
+                addname:'',
+                addprice:'',
+                found:''
+                
+            },
+
+            methods:{
+                change(item){
+                    item.ischange = !item.ischange
+                },
+                del(index){
+                    this.arr.splice(index,1)
+                },
+                delcheckbox(){
+                    this.arr = this.arr.filter((elem,index)=>{
+                         if(!this.message.includes(index)){
+                             return elem;
+                         }
+                     });
+                     this.message = [];
+                },
+                add(){
+                   this.arr.push({
+                    name:this.addname,
+                    price:this.addprice,
+                    ischange:false
+                   });
+                   this.addname='';
+                  this.addprice=0
+                },
+                find(){
+                  this.arr = this.arr.filter((elem)=>{
+                      if(elem.name.includes(this.found)){
+                          return elem;
+                      }
+                  });
+                }
+             },
+             computed:{
+               totalValue(){
+                 let sum = 0;
+                    this.arr.forEach(elem => {
+                        if (elem.ischange) {
+                            sum += parseInt(elem.price);
+                        }
+                    });
+                    return sum; 
+
+                // return this.arr.reduce((sum, elem) => {
+                //         if (elem.ischange) {
+                //             sum += parseInt(elem.price);
+                //         }
+                //         return sum;
+                //     }, 0);
+               }
+            }
+             
+
+
+        });
+    </script>
+</body>
+</html>
